@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 30px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); font-family: 'Futura', Arial, sans-serif;">
+
+  <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 20px; color: #111; letter-spacing: 1px;">
+    Welcome {{request.user.name}}!
+  </h1>
+
+  <p style="font-size: 18px; color: #333; line-height: 1.6; margin-bottom: 16px;">
+    Welcome to <span style="font-weight: bold;">BookmarkHub</span>, your place for reading and savouring online articles.
+  </p>
+
+  <p style="font-size: 18px; color: #333; margin-bottom: 30px;">
+    Tell us your reading preferences so we can tailor your hub to what you love most.
+  </p>
+
+  <a href="{% url 'select-preferences' %}" 
+     style="background: black; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 18px; font-weight: 500; transition: background 0.3s ease;">
+     Next →
+  </a>
+</div>
+{% endblock %}

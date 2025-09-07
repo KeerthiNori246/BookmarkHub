@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 75vh;">
+
+  <div style="max-width: 420px; width: 100%; border: 1px solid #ddd; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; background: white; padding-top: 40px;">
+
+    {% if user_data.pfp %}
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img src="{{ user_data.pfp }}" 
+             alt="{{ user_data.name }}'s Profile Picture" 
+             style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; box-shadow: 0 3px 8px rgba(0,0,0,0.12);">
+      </div>
+    {% endif %}
+
+    <div style="padding: 0 24px 24px; text-align: center;">
+      <h3 style="font-family: 'Futura', Arial, sans-serif; font-size: 26px; font-weight: bold; margin-bottom: 10px; color: #111;">
+        {{ user_data.name }}
+      </h3>
+      <p style="font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 22px;">
+        {{ user_data.description }}
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="javascript:void(0);" 
+           onclick="copyProfileLink()"
+           style="display: inline-block; background: #f5f5f5; color: black; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px solid #ddd; transition: background 0.3s ease;">
+           Share Profile
+        </a>
+
+        <a href="{% url 'board-list' user_data.name %}" 
+           style="display: inline-block; background: #f5f5f5; color: black; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px solid #ddd; transition: background 0.3s ease;">
+           View Boards
+        </a>
+
+        {% if can_edit %}
+          <a href="{% url 'edit-profile' %}" 
+             style="display: inline-block; background: black; color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 500; transition: background 0.3s ease;">
+             Edit Profile
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 18px;">
+    <a href="{% url 'home' %}" 
+       style="display: inline-block; background: #f5f5f5; color: black; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 500; border: 1px solid #ddd; transition: background 0.3s ease;">
+      ← Back to Home
+    </a>
+  </div>
+</div>
+
+<script>
+  function copyProfileLink() {
+    const profileUrl = window.location.href;
+    navigator.clipboard.writeText(profileUrl).then(() => {
+      alert("✅ Profile link copied to clipboard!");
+    }).catch(err => {
+      console.error("Failed to copy: ", err);
+    });
+  }
+</script>
+{% endblock %}
+
+

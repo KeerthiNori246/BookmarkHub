@@ -1,0 +1,70 @@
+{% load static %}
+
+<header style="padding: 10px 20px; border-bottom: 2px solid #ddd;">
+  <nav style="display: flex; align-items: center; justify-content: space-between;">
+    
+    <!-- Left: Logo + Text -->
+    <a href="{% url 'home' %}" 
+       style="display: flex; align-items: center; text-decoration: none; color: black;">
+      <img src="{% static 'images/logo.png' %}?v=7" alt="Logo" style="height: 70px; width: auto;">
+      <span style="font-family: 'Futura', Arial, sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 2px; margin-left: 0;">
+        BOOKMARK<span style="font-weight: lighter;">HUB</span>
+      </span>
+    </a>
+
+    <!-- Right Side -->
+    <div style="display: flex; align-items: center; gap: 12px; position: relative;">
+      
+      <!-- Button Details -->
+      <a href="{% url 'button-details' %}" 
+         style="background: black; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+        Bookmarklet
+      </a>
+
+      {% if request.user.is_authenticated %}
+        <!-- Profile Dropdown -->
+        <div style="position: relative;">
+          <img src="{{ request.user.pfp.url }}" alt="Profile" 
+               onclick="toggleDropdown()" 
+               style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #000; cursor: pointer;">
+          
+          <!-- Dropdown Menu -->
+          <div id="profileDropdown" 
+               style="display: none; position: absolute; right: 0; top: 70px; background: white; border: 1px solid #ddd; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); min-width: 150px; z-index: 10;">
+            
+            <a href="{% url 'profile' request.user.name %}" 
+               style="display: block; padding: 10px; text-decoration: none; color: black; font-weight: 500; border-bottom: 1px solid #eee;">
+              Profile
+            </a>
+            <a href="{% url 'logout' %}" 
+               style="display: block; padding: 10px; text-decoration: none; color: red; font-weight: 500;">
+              Logout
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </nav>
+</header>
+
+<script>
+function toggleDropdown() {
+  const dropdown = document.getElementById("profileDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close dropdown if clicked outside
+document.addEventListener("click", function(event) {
+  const dropdown = document.getElementById("profileDropdown");
+  const profilePic = dropdown.previousElementSibling;
+  if (!dropdown.contains(event.target) && event.target !== profilePic) {
+    dropdown.style.display = "none";
+  }
+});
+</script>
+
+
+
+
+
+

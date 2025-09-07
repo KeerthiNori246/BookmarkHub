@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div style="max-width: 600px; margin: 40px auto; padding: 20px; font-family: 'Futura', Arial, sans-serif;">
+
+  <h2 style="font-size: 26px; font-weight: bold; margin-bottom: 25px; border-bottom: 2px solid #ddd; padding-bottom: 8px;">
+    Create a New Board
+  </h2>
+
+  <form id="createBoardForm" method="POST" style="display: flex; flex-direction: column; gap: 20px;">
+    {% csrf_token %}
+    <input type="text" id="boardName" name="name" placeholder="Enter board name..." required
+           style="padding: 12px 16px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; outline: none; transition: border 0.2s;">
+    
+    <!-- Hidden article fields -->
+    <input type="hidden" name="title" value="{{ request.POST.title }}">
+    <input type="hidden" name="overview" value="{{ request.POST.overview }}">
+    <input type="hidden" name="link" value="{{ request.POST.link }}">
+    <input type="hidden" name="pic" value="{{ request.POST.pic }}">
+
+    <button type="submit" 
+            style="background: black; color: white; padding: 14px 20px; border: none; border-radius: 8px; font-size: 17px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+      Create Board
+    </button>
+  </form>
+</div>
+
+<!-- Custom Alert Box -->
+<div id="customAlert" 
+     style="display:none; position: fixed; top: 30px; right: 30px; 
+            background: black; color: white; 
+            padding: 18px 28px; border-radius: 10px; 
+            font-size: 18px; font-weight: 600; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25); 
+            z-index: 1000; opacity: 0; 
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-20px);">
+</div>
+
+<script>
+function showCustomAlert(message, isError = false) {
+    const alertBox = document.getElementById("customAlert");
+    alertBox.textContent = message;
+    alertBox.style.background = isError ? "#d9534f" : "black"; // red for errors
+    alertBox.style.display = "block";
+    setTimeout(() => { 
+        alertBox.style.opacity = 1; 
+        alertBox.style.transform = "translateY(0)"; 
+    }, 10);
+
+    setTimeout(() => {
+        alertBox.style.opacity = 0;
+        alertBox.style.transform = "translateY(-20px)";
+        setTimeout(() => { alertBox.style.display = "none"; }, 300);
+    }, 3500); // stays visible for 3.5s
+}
+
+document.getElementById("createBoardForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const boardName = document.getElementById("boardName").value;
+
+    fetch("", {
+        method: "POST",
+        body: new FormData(this)
+    }).then(response => {
+        if (response.ok) {
+            showCustomAlert(`Board "${boardName}" created successfully!`);
+            setTimeout(() => window.location.href = "{% url 'home' %}", 1500);
+        } else {
+            showCustomAlert("⚠️ Something went wrong. Please try again.", true);
+        }
+    }).catch(() => {
+        showCustomAlert("⚠️ Network error. Please check your connection.", true);
+    });
+});
+</script>
+
+{% endblock %}
+
+
+

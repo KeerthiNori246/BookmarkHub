@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; min-height: 70vh;">
+  <div style="text-align: center; max-width: 600px; padding: 40px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); background: white;">
+
+    <h1 style="font-family: 'Futura', Arial, sans-serif; font-size: 28px; font-weight: bold; margin-bottom: 25px; color: #111; letter-spacing: 1px;">
+      To save articles you love from the internet into BookmarkHub, just drag the button below to your bookmarks bar.
+    </h1>
+
+    <a href="javascript:(function(){const getMeta=(n)=>{const el=document.querySelector('meta[name=&quot;'+n+'&quot;]')||document.querySelector('meta[property=&quot;'+n+'&quot;]');return el?el.content:'';};const title=encodeURIComponent(document.title);const desc=encodeURIComponent(getMeta('description')||getMeta('og:description')||'');const img=encodeURIComponent(getMeta('og:image')||'');const url=encodeURIComponent(window.location.href);const fullUrl='http://localhost:8000/save-article/?title='+title+'&desc='+desc+'&img='+img+'&url='+url;window.open(fullUrl,'_blank');})();"
+       style="display: inline-block; background: black; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: 500; transition: background 0.3s ease; margin-bottom: 30px;">
+      Bookmarklet
+    </a>
+
+    <div>
+      <a href="{% url 'home' %}" 
+         style="display: inline-block; background: #f5f5f5; color: black; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 16px; font-weight: 500; border: 1px solid #ddd; transition: background 0.3s ease;">
+        Proceed to home page
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

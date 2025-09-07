@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 75vh;">
+
+  <div style="max-width: 420px; width: 100%; border: 1px solid #ddd; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: white; padding: 30px;">
+
+    {% if page == 'login' %}
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px; font-family: 'Futura', Arial, sans-serif;">Login</h2>
+
+      {% if messages %}
+        <div style="margin-bottom: 15px; text-align: center;">
+          {% for message in messages %}
+            <p style="color: red; font-size: 14px;">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="POST" action="" style="display: flex; flex-direction: column; gap: 15px;">
+        {% csrf_token %}
+        
+        <div>
+          <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px;">Email:</label>
+          <input type="email" name="email" required 
+                 style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px;">Password:</label>
+          <input type="password" name="password" required 
+                 style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+        </div>
+
+        <input type="submit" value="Login" 
+               style="background: black; color: white; padding: 10px; border-radius: 6px; border: none; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.3s ease;">
+      </form>
+
+      <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+        Didn’t sign up? <a href="{% url 'register' %}" style="color: blue; text-decoration: none;">Register</a>
+      </p>
+
+    {% else %}
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px; font-family: 'Futura', Arial, sans-serif;">Register</h2>
+
+      {% if messages %}
+        <div style="margin-bottom: 15px; text-align: center;">
+          {% for message in messages %}
+            <p style="color: red; font-size: 14px;">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="POST" action="" style="display: flex; flex-direction: column; gap: 15px;">
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div>
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px;">{{ field.label }}</label>
+            {{ field }}
+          </div>
+        {% endfor %}
+
+        <input type="submit" value="Register" 
+               style="background: black; color: white; padding: 10px; border-radius: 6px; border: none; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.3s ease;">
+      </form>
+
+      <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+        Already signed up? <a href="{% url 'login' %}" style="color: blue; text-decoration: none;">Login</a>
+      </p>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

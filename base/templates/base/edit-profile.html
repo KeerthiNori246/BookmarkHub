@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div style="max-width: 700px; margin: 40px auto; padding: 20px; font-family: 'Futura', Arial, sans-serif;">
+
+  <h2 style="font-size: 28px; font-weight: bold; margin-bottom: 30px; letter-spacing: 1px; border-bottom: 2px solid #ddd; padding-bottom: 10px;">
+    Edit Your Profile
+  </h2>
+
+  <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 25px;">
+    {% csrf_token %}
+
+    <!-- Profile Picture -->
+    <div>
+      <label for="id_pfp" style="display: block; font-weight: 500; margin-bottom: 12px;">Profile Picture:</label>
+      
+      <!-- Current / New Preview -->
+      <img id="profilePreview" 
+           src="{{ request.user.pfp.url }}" 
+           alt="Profile Pic" 
+           style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 2px solid #000; cursor: pointer;">
+
+      <!-- Hidden File Input -->
+      <input type="file" name="pfp" id="id_pfp" accept="image/*" 
+             style="display: none;" onchange="previewImage(event)">
+      
+      <!-- Click Hint -->
+      <p style="font-size: 13px; color: #555; margin-top: 8px;">Click the picture to change</p>
+    </div>
+
+    <!-- Name -->
+    <div>
+      <label for="id_name" style="display: block; font-weight: 500; margin-bottom: 8px;">Name:</label>
+      {{ form.name }}
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label for="id_description" style="display: block; font-weight: 500; margin-bottom: 8px;">Description:</label>
+      {{ form.description }}
+    </div>
+
+    <!-- Save Button -->
+    <button type="submit" 
+            style="align-self: flex-start; background: black; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.2s;">
+      Save Changes
+    </button>
+  </form>
+</div>
+
+<style>
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Futura', Arial, sans-serif;
+    font-size: 15px;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+</style>
+
+<script>
+  // When user clicks the preview, trigger file input
+  document.getElementById("profilePreview").addEventListener("click", function() {
+    document.getElementById("id_pfp").click();
+  });
+
+  // Update preview when new image is chosen
+  function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("profilePreview").src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+
+{% endblock %}
+
+
+
